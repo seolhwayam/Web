@@ -1,0 +1,55 @@
+<div class="row my-5">
+    <div class="col">
+        <h1 class="text-center mb-3">도서검색</h1>
+        <div class="row justify-content-end mb-3">
+            <!--해상도에 따라 넓이가 달라짐-->
+            <!--검색할때마다 페이지가 번쩍하는데 번쩍하지 않고 데이터만 바꿔주는 것이 ajax-->
+            <form class="col-6 col-md-4 col-lg-3" name="frm">
+                <div class="input-group">
+                    <input class="form-control" name="query" value="자바">
+                    <button class="btn btn-primary">검색</button>
+                </div>
+            </from>
+        </div>
+        <div id="div_books"></div>"
+    </div>
+</div>
+<!-- 도서목록 템플릿 -->
+<script type="x-handlebars-template" id="temp_books">
+    <table class="table table-striped">
+        {{#each documents}}
+        <tr>
+            <td><img src="{{thumbnail}}" width="50"></td>
+            <td>{{title}}</td>
+            <td>{{price}}</td>
+            <td>{{authors}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</script>
+
+<!-- 도서목록 가져오기 -->
+<script>
+    let query=$(frm.query).val();
+    getBooks();
+    $(frm).on("submit",function(e){
+        e.preventDefault();//submit이벤트를 막아준다.
+        query=$(frm.query).val();
+        getBooks();
+
+    })
+
+    function getBooks(){
+        $.ajax({
+                type: "get",
+                url: "https://dapi.kakao.com/v3/search/book?target=title",
+                headers: {"Authorization": "KakaoAK 07675fc6809bcd45f8f0741893273033"},
+                data: {query:query, page: 1, size: 5},
+                success: function (data){
+                    console.log(data);
+                    let temp = Handlebars.compile($("#temp_books").html());
+                    $("#div_books").html(temp(data));
+                }
+        });
+    }
+</script>
