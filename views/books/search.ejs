@@ -32,12 +32,12 @@
 <script>
     let query=$(frm.query).val();
     getBooks();
-$(frm).on("submit",function(e){
-    e.preventDefault();//submit이벤트를 막아준다.
-    query=$(frm.query).val();
-    getBooks();
+    $(frm).on("submit",function(e){
+        e.preventDefault();//submit이벤트를 막아준다.
+        query=$(frm.query).val();
+        getBooks();
 
-})
+    })
 
     function getBooks(){
         $.ajax({
