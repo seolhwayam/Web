@@ -43,7 +43,7 @@
                 </div>
                 <div class ="card-footer">
                     {{format price}}
-                    <i class="bi bi-cart4 float-end" book="{{book @this}}"></i>
+                    <i class="cart bi bi-cart4 float-end" book="{{book @this}}"></i>
                 </div>
             </div>
         </div>
@@ -64,29 +64,44 @@
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
     });
 
-    Handlebars.registerHelper("book",function(book){
+    Handlebars.registerHelper("book",function(book){ //this는 object 
         return JSON.stringify(book); //object -> string
     });
 
 </script>
 
-<script>
+<script type="module">
+    import {app} from "/javascripts/firebase.js";
+    import {getDatabase,ref,set, get} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    const db=getDatabase(app) //app : 설정 파일
+
     let query=$(frm.query).val();
     let page =1;
 
     getBooks();
 
-    //장바구니 클릭하였을 때
-    $("#div_books").on("click",".bi",function(){
-        if(sessionStorage.getItem("email")){
-            location.href=".users/login";
-        }else{
-            //장바구니 등록
-            const book=JSON.parse($(this).attr("book")); //sting -> object
-            console.log(book);
+    //장바구니 아이콘을 클릭한 경우
+    $("#div_books").on("click", ".cart", async function(){
+        //로그인이 되지 않았을 경우
+        if(!sessionStorage.getItem("uid")){
+            location.href="/users/login";
+            return;
         }
-    });
+        // 장바구니에 있는지 체크
+        const book=JSON.parse($(this).attr("book")); //다시 오브젝트로 변환
+        const ref_cart=ref(db, `cart/${sessionStorage.getItem("uid")}/${book.isbn}`);
+        const result = await get(ref_cart);
+        if(result.val()){
+            alert("이미 장바구니에 있습니다.")
+        }else{
+            if(!confirm("장바구니에 추가하시겠습니까?")) return;
+            set(ref_cart,book);
+            alert("장바구니에 추가되었습니다.")
+        }
 
+      
+    });
 
     //이미지를 클릭한 경우($제이쿼리 #id 태그x )
     $("#div_books").on("click","img",function(){
