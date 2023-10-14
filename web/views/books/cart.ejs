@@ -38,6 +38,17 @@
         }
     });
 
+    //각 행의 체크박스를 누른 경우
+    $("#div_cart").on("click",".chk",function(){
+        const all=$("#div_cart .chk").length;
+        const chk=$("#div_cart .chk:checked").length;
+        if(all==chk){
+            $("#div_cart #all").prop("checked",true);
+        }else{
+            $("#div_cart #all").prop("checked",false);
+        }
+    });
+
     //장바구니 도서목록 
     const ref_cart=ref(db,`cart/${sessionStorage.getItem("uid")}`);
     onValue(ref_cart, result=>{
