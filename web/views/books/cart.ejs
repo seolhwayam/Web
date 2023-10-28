@@ -7,6 +7,7 @@
             <tr>
                 <td colcpan="7">
                     <input type="checkbox" id="all">
+                    <button class="btn btn-warning btn-sm ms-3">선택삭제</button>
                 </td>
             </tr>
         {{#each .}} <!--배열의 이름이 없으면 .-->
@@ -28,6 +29,20 @@
     import {app} from "/javascripts/firebase.js";
     import {getDatabase,ref,onValue,remove} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
     const db=getDatabase(app) 
+
+    //선택 삭제 버튼을 클릭한 경우
+    $("#div_cart").on("click",".btn-warning",function(){
+        const chk=$("#div_cart .chk:checked").length;
+        if(chk==0){
+            alert("삭제할 도서를 선택해주세요.");
+        }else{
+            if(!confirm(chk + "개 도서를 삭제하시겠습니까?")) return;
+            //도서삭제
+            $("div_cart .chk:checked").each(item=>{
+                alert("~~~");
+            });
+        }
+    });
 
     //전체 체크박스를 클릭한 경우
     $("#div_cart").on("click","#all", function(){
@@ -61,7 +76,7 @@
     });
 
     // 장바구니 삭제버튼을 클릭한 경우
-    $("#div_cart").on("click",".btn", async function(){
+    $("#div_cart").on("click",".btn-danger", async function(){
         const isbn=$(this).attr("isbn");
         if(!confirm(`${isbn} 정말 삭제하시겠습니까?`)) return; //삭제 안할거면 return해서 빠져나감
 

@@ -43,9 +43,14 @@
             signInWithEmailAndPassword(auth, email, password).then(success=>{
                 console.log(success);
                 alert("로그인에 성공했습니다");
+                //alert(sessionStorage.getItem("target"));
+                if(sessionStorage.getItem("target")){
+                    location.href=sessionStorage.getItem("target");
+                }else{
+                    location.href="/";
+                }
                 sessionStorage.setItem("email",email); //브라우저에 내용 저장
                 sessionStorage.setItem("uid", success.user.uid);
-                location.href ="/";
             }).catch(error=>{
                 console.log(error.message);
                 alert(error.message);

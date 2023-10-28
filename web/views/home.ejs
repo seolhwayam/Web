@@ -135,7 +135,7 @@
             headers:{"Authorization":"KakaoAK 946e2e15a15fff0476418e755bb41a6f"},
             data:{query:query, page:page, size:6},
             success:function(result){
-                console.log(result);
+                console.log(result); 
                 let temp=Handlebars.compile($("#temp_books").html());
                 $("#div_books").html(temp(result));
 
