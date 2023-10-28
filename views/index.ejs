@@ -1,17 +1,23 @@
 <!DOCTYPE html>
+
+
 <html>
       <head>
-            <title><%= title %></title>
+            <title><%= title %></title> <!--index/js에서 적어놓은 타이틀-->
+            <!--import 내용-->
             <link rel='stylesheet' href='/stylesheets/style.css' />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
             <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df71e49d61a394e03984e6a6ebee75b0"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       </head>
   <body>
+       <!--전체 페이지 -->
         <div class="container">
             <%-include("header.ejs")%>
-            <%-include(pageName)%>
+            <%-include(pageName)%> <!--변수값 ()%-->
             <%-include("footer.ejs")%>
         </div>
   </body>
