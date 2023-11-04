@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app'); 
+var app = require('../app');
 var debug = require('debug')('web:server');
 var http = require('http');
 
@@ -12,14 +12,14 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000'); //포트3000
+var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app); //앱정보 서버 사용
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

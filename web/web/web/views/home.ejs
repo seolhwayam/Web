@@ -1,13 +1,3 @@
-<style>
-    #div_books img{
-        cursor : pointer;
-    }
-    #div_books .bi{
-        cursor: pointer;
-        color:green;
-        font-size: 1.5rem;
-    }
-</style>
 <div class="row my-5">
     <div class="col">
         <!-- 검색폼-->
@@ -36,18 +26,16 @@
          <div class="col-6 col-md-4 col-lg-2 mb-3">
             <div class="card">
                 <div class ="card-body">
-                    <img src="{{check thumbnail}}" width="90%" index="{{@index}}"> <!--인덱스변수는 @-->
+                    <img src="{{check thumbnail}}" width="90%">
                     <div class="ellipsis pt-3" style="font-size:0.8rem;">
                         {{title}}
                     </div>
                 </div>
                 <div class ="card-footer">
                     {{format price}}
-                    <i class="cart bi bi-cart4 float-end" book="{{book @this}}"></i>
                 </div>
             </div>
         </div>
-        <%-include('books/modal.ejs')%> 
     {{/each}}
 </script>
 
@@ -64,50 +52,14 @@
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
     });
 
-    Handlebars.registerHelper("book",function(book){ //this는 object 
-        return JSON.stringify(book); //object -> string
-    });
-
 </script>
 
-<script type="module">
-    import {app} from "/javascripts/firebase.js";
-    import {getDatabase,ref,set, get} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-
-    const db=getDatabase(app) //app : 설정 파일
+<script>
 
     let query=$(frm.query).val();
     let page =1;
 
     getBooks();
-
-    //장바구니 아이콘을 클릭한 경우
-    $("#div_books").on("click", ".cart", async function(){
-        //로그인이 되지 않았을 경우
-        if(!sessionStorage.getItem("uid")){
-            location.href="/users/login";
-            return;
-        }
-        // 장바구니에 있는지 체크
-        const book=JSON.parse($(this).attr("book")); //다시 오브젝트로 변환
-        const ref_cart=ref(db, `cart/${sessionStorage.getItem("uid")}/${book.isbn}`);
-        const result = await get(ref_cart);
-        if(result.val()){
-            alert("이미 장바구니에 있습니다.")
-        }else{
-            if(!confirm("장바구니에 추가하시겠습니까?")) return;
-            set(ref_cart,book);
-            alert("장바구니에 추가되었습니다.")
-        }
-
-      
-    });
-
-    //이미지를 클릭한 경우($제이쿼리 #id 태그x )
-    $("#div_books").on("click","img",function(){
-        let index=$(this).attr("index");
-        $("#modal"+index).modal("show");
-    });
 
     $(frm).on("submit", function(event){
         event.preventDefault();
@@ -135,7 +87,7 @@
             headers:{"Authorization":"KakaoAK 946e2e15a15fff0476418e755bb41a6f"},
             data:{query:query, page:page, size:6},
             success:function(result){
-                console.log(result); 
+                console.log(result);
                 let temp=Handlebars.compile($("#temp_books").html());
                 $("#div_books").html(temp(result));
 
