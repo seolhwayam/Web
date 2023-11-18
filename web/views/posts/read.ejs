@@ -1,5 +1,9 @@
 <div class="my-5">
     <h1 class="text-center mb-5">게시글정보</h1>
+    <div id="btn-group" class="text-end mb-2" style="display: none;">
+        <button class="btn btn-warning">수정</button>
+        <button class="btn btn-danger">삭제</button>
+    </div>
     <div id="div_post"></div>
 </div>
 <script id="temp_post" type="x-handlebars-template">
@@ -25,5 +29,10 @@
     const snapshot =await getDoc(doc(db,`posts/${id}`));
     const temp=Handlebars.compile($("#temp_post").html());
     $("#div_post").html(temp(snapshot.data()));
+
+    const post = snapshot.data();
+    if(sessionStorage.getItem("email")==post.email){
+        $("#btn-group").show();
+    }
 
 </script>
