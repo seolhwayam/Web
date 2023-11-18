@@ -28,7 +28,7 @@
 <script type="module">
     import {app} from "/javascripts/firebase.js";
     import {getDatabase,ref,onValue,remove} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-    const db=getDatabase(app) 
+    const db=getDatabase(app) //데이터 목록으로 가져올시 onValue
 
     //선택 삭제 버튼을 클릭한 경우
     $("#div_cart").on("click",".btn-warning",function(){
